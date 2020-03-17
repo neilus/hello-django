@@ -8,6 +8,7 @@ from django.http import HttpResponse
 
 from .models import Question
 
+
 class GetHelloWorldTests(TestCase):
 
     def test_hello(self):
@@ -15,4 +16,3 @@ class GetHelloWorldTests(TestCase):
         response = client.get('/')
 
         self.assertContains(response, "Hello", status_code=200)
-
