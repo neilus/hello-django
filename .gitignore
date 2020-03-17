@@ -1,3 +1,5 @@
 *.pyc
 .tox/
 *.sqlite3
+virtualenv/
+.vscode/
