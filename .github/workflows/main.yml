@@ -40,6 +40,9 @@ jobs:
     - name: Install TOX
       run: sudo pip install -U tox
 
+    - name: Start X
+      run: nohup startx &
+  
     - name: Run tests with tox
       env:
         DISPLAY: ":0"
