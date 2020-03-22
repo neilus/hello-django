@@ -39,8 +39,7 @@ jobs:
   
     - name: Install TOX
       run: sudo pip install -U tox
+      #run: sudo apt install -yq python-tox
 
     - name: Run tests with tox
-      env:
-        DISPLAY: ":0"
       run: tox
