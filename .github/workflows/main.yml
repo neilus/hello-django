@@ -24,7 +24,19 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
+    - name: Update apt package list
+      run: sudo apt-get update
+      
+    - name: Install Chrome and Chrome webdriver for Selenium
+      run: |
+        sudo apt-get install -yqq \
+          chromium-browser chromium-chromedriver
+
+    - name: Install Firefox and Firefox webdriver for Selenium
+      run: |
+        sudo apt-get install -yqq \
+          firefox webkit2gtk-driver \
+  
     - name: Install TOX
       run: sudo pip install -U tox
       #run: sudo apt install -yq python-tox
