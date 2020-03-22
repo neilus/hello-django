@@ -3,7 +3,7 @@
 ${HOSTNAME}             127.0.0.1
 ${PORT}                 8000
 ${SERVER}               http://${HOSTNAME}:${PORT}/
-${BROWSER}              firefox
+@{BROWSERS}              firefox     chrome
 ${MYSITE}               hello
 
 
@@ -11,9 +11,10 @@ ${MYSITE}               hello
 Documentation   Django Robot Tests
 Library           Process
 Library           SeleniumLibrary  timeout=10  implicit_wait=10
-Suite Setup       Start Django and open Browser
+Suite Setup       Start Django
 # Suite Teardown    Terminate All Processes    kill=True
-Suite Teardown    Stop Django and close Browser
+Suite Teardown    Stop Django
+
 
 
 *** Keywords ***
@@ -31,16 +32,35 @@ Stop Django and close browser
     Close Browser
     Stop Django
 
-
-*** Test Cases ***
 Hello Django
+    [Documentation]     Test the hello website with a browser given
+    [Arguments]     ${BROWSER}=firefox
+    Open Browser    ${SERVER} ${BROWSER}
     Go To  ${SERVER}
     # Wait until page contains element  id=explanation
     Page Should Contain  Hello
     Capture Page Screenshot
-  
-# Scenario: As a visitor I can visit the django default page
-#   Go To  ${SERVER}
-#   Wait until page contains element  id=explanation
-#   Page Should Contain  It worked!
-#   Page Should Contain  Congratulations on your first Django-powered page.
+    Close Browser
+
+*** Test Cases ***
+Hello From Firefox
+    Start Django
+    Open Browser    ${SERVER}  firefox
+    Go To   ${SERVER}
+    Page Should Contain     Hello
+    Capture Page Screenshot
+    Close Browser
+
+Hello From Chrome
+    Start Django
+    Open Browser    ${SERVER}  chrome
+    Go To   ${SERVER}
+    Page Should Contain     Hello
+    Capture Page Screenshot
+    Close Browser
+
+Hello Django from each browser
+    [Template]  Hello Django
+    firefox
+    chrome
+    # safari
