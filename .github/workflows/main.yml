@@ -26,7 +26,8 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Install TOX
-      run: sudo apt install -yq python-tox
+      run: sudo pip install -U tox
+      #run: sudo apt install -yq python-tox
 
     - name: Run tests with tox
       run: tox
