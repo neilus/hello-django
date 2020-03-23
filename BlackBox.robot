@@ -16,14 +16,14 @@ Suite Setup       Start Django
 Suite Teardown    Stop Django
 
 
-
 *** Keywords ***
 Start Django
     ${Django Server} =  Start Process   python manage.py runserver  shell=True  cwd=./
     Set Global Variable  ${Django Server}
+
 Stop Django
-    # Terminate All Processes    kill=True
     Terminate Process   ${Django Server}   kill=true
+
 Start Django and open Browser
     Start Django
     Open Browser  ${SERVER}  ${BROWSER}
@@ -34,7 +34,7 @@ Stop Django and close browser
 
 Hello Django
     [Documentation]     Test the hello website with a browser given
-    [Arguments]     ${BROWSER}=firefox
+    [Arguments]     ${BROWSER}
     Open Browser    ${SERVER} ${BROWSER}
     Go To  ${SERVER}
     # Wait until page contains element  id=explanation
@@ -43,24 +43,25 @@ Hello Django
     Close Browser
 
 *** Test Cases ***
-Hello From Firefox
+Hello From Headless Firefox
     Start Django
-    Open Browser    ${SERVER}  firefox
+    Open Browser    ${SERVER}  headlessfirefox
     Go To   ${SERVER}
     Page Should Contain     Hello
     Capture Page Screenshot
     Close Browser
 
-Hello From Chrome
+Hello From Headless Chrome
     Start Django
-    Open Browser    ${SERVER}  chrome
+    Open Browser    ${SERVER}  headlesschrome
     Go To   ${SERVER}
     Page Should Contain     Hello
     Capture Page Screenshot
     Close Browser
 
 Hello Django from each browser
+    [Tags]  Skip
     [Template]  Hello Django
-    firefox
-    chrome
+    headlessfirefox
+    headlesschrome
     # safari
