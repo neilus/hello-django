@@ -3,3 +3,7 @@
 *.sqlite3
 virtualenv/
 .vscode/
+*.png
+*.xml
+*.html
+*.log
