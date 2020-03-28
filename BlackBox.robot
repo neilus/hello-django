@@ -34,7 +34,7 @@ Stop Django and close browser
 
 Hello Django
     [Documentation]     Test the hello website with a browser given
-    [Arguments]     ${BROWSER}
+    [Arguments]     ${BROWSER}=firefox
     Open Browser    ${SERVER} ${BROWSER}
     Go To  ${SERVER}
     # Wait until page contains element  id=explanation
@@ -44,6 +44,7 @@ Hello Django
 
 *** Test Cases ***
 Hello From Headless Firefox
+    [Tags]  Skip
     Start Django
     Open Browser    ${SERVER}  headlessfirefox
     Go To   ${SERVER}
@@ -52,6 +53,7 @@ Hello From Headless Firefox
     Close Browser
 
 Hello From Headless Chrome
+    [Tags]  Mandatory
     Start Django
     Open Browser    ${SERVER}  headlesschrome
     Go To   ${SERVER}
