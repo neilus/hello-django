@@ -2,6 +2,7 @@
 .tox/
 *.sqlite3
 virtualenv/
+.venv/
 .vscode/
 *.png
 *.xml
