@@ -3,7 +3,6 @@ Vagrant.configure("2") do |config|
     vbox.gui = false
   end
 
-  config.vm.synced_folder ".", "/vagrant", disabled: false
   config.vm.provision "blackbox-tests",
     type: "file",
     source: "BlackBox.robot",
@@ -18,7 +17,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "server" do |server|
     server.vm.box = "generic/ubuntu1804"
-    server.vm.synced_folder ".", "/vagrant", disabled: false
+    # server.vm.synced_folder ".", "/vagrant", disabled: false
     server.vm.network "private_network", ip: "192.168.137.10"
     server.vm.provision "setup_python", type: "shell",
       keep_color: true,
@@ -35,7 +34,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "mac-client", autostart: false do |mac|
     mac.vm.box = "ramsey/macos-catalina"
-    mac.vm.synced_folder ".", "/vagrant", disabled: true
+    mac.vm.synced_folder ".", "/vagrant", type: "smb", disabled: false
     mac.vm.network "private_network", ip: "192.168.137.20"
     mac.vm.provision "brew", type: "shell",
       keep_color: true,
@@ -51,7 +50,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "windows-client" do |win|
     win.vm.box = "peru/windows-10-enterprise-x64-eval"
     win.vm.boot_timeout = 1800
-    win.vm.synced_folder ".", "/vagrant", disabled: false
+    win.vm.synced_folder ".", "/vagrant", type: "smb", disabled: false
     win.vm.network "private_network", ip: "192.168.137.30"
     win.vm.provision "choco", type: "shell",
       keep_color: true,
@@ -59,7 +58,7 @@ Vagrant.configure("2") do |config|
       inline: <<-SCRIPT
         Set-ExecutionPolicy Bypass -Scope Process -Force;
         iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-        choco install --confirm --accept-license --no-progresss python python2 git google-chrome firefox microsoft-edge ie9 ie10 ie11 selenium-all-drivers vscode fluent-terminal
+        choco install --confirm --accept-license --no-progresss python2 git google-chrome firefox microsoft-edge ie9 ie10 ie11 selenium-all-drivers vscode fluent-terminal
         wuauclt /detectnow /updatenow
 
       SCRIPT
