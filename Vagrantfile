@@ -1,5 +1,4 @@
 Vagrant.configure("2") do |config|
-  config.vm.network "private_network", type: "dhcp"
   config.vm.provider "virtualbox" do |vbox|
     vbox.gui = false
   end
@@ -15,9 +14,12 @@ Vagrant.configure("2") do |config|
     source: "tox.ini",
     destination: "tox.ini",
     run: "always"
+
+
   config.vm.define "server" do |server|
     server.vm.box = "generic/ubuntu1804"
     server.vm.synced_folder ".", "/vagrant", disabled: false
+    server.vm.network "private_network", ip: "192.168.137.10"
     server.vm.provision "setup_python", type: "shell",
       keep_color: true,
       privileged: true,
@@ -31,9 +33,10 @@ Vagrant.configure("2") do |config|
       SCRIPT
   end
 
-  config.vm.define "mac-client" do |mac|
+  config.vm.define "mac-client", autostart: false do |mac|
     mac.vm.box = "ramsey/macos-catalina"
     mac.vm.synced_folder ".", "/vagrant", disabled: true
+    mac.vm.network "private_network", ip: "192.168.137.20"
     mac.vm.provision "brew", type: "shell",
       keep_color: true,
       privileged: false,
@@ -49,6 +52,7 @@ Vagrant.configure("2") do |config|
     win.vm.box = "peru/windows-10-enterprise-x64-eval"
     win.vm.boot_timeout = 1800
     win.vm.synced_folder ".", "/vagrant", disabled: false
+    win.vm.network "private_network", ip: "192.168.137.30"
     win.vm.provision "choco", type: "shell",
       keep_color: true,
       privileged: true,
