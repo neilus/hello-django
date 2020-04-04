@@ -31,3 +31,5 @@ jobs:
 
     - name: Run tests with tox
       run: tox
+      env:
+        JENKINS_URL: ''

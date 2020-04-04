@@ -18,7 +18,8 @@ Vagrant.configure("2") do |config|
   config.vm.define "server" do |server|
     server.vm.box = "generic/ubuntu1804"
     server.vm.synced_folder ".", "/vagrant", disabled: false
-    server.vm.network "private_network", ip: "192.168.137.10"
+    # server.vm.network "private_network", type: "dhcp" # ip: "192.168.137.10"
+    server.vm.network "public_network", type: "dhcp"
     server.vm.provision "setup_python", type: "shell",
       keep_color: true,
       privileged: true,
@@ -34,8 +35,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "mac-client", autostart: false do |mac|
     mac.vm.box = "ramsey/macos-catalina"
-    # mac.vm.synced_folder ".", "/vagrant", type: "smb"
-    mac.vm.network "private_network", ip: "192.168.137.20"
+    mac.vm.synced_folder ".", "/vagrant", disabled: true #, type: "smb"
+    # mac.vm.network "private_network", type: "dhcp" # ip: "192.168.137.20"
+    mac.vm.network "public_network", type: "dhcp"
     mac.vm.provision "brew", type: "shell",
       keep_color: true,
       privileged: false,
@@ -51,7 +53,8 @@ Vagrant.configure("2") do |config|
     win.vm.box = "peru/windows-10-enterprise-x64-eval"
     win.vm.boot_timeout = 1800
     # win.vm.synced_folder ".", "/vagrant", type: "smb"
-    win.vm.network "private_network", ip: "192.168.137.30"
+    # win.vm.network "private_network", type: "dhcp" #ip: "192.168.137.30"
+    win.vm.network "public_network", type: "dhcp"
     win.vm.provision "choco", type: "shell",
       keep_color: true,
       privileged: true,
