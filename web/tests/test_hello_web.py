@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.test import Client
 from django.http import HttpResponse
 
-from .models import Question
+from web.models import Question
 
 
 class GetHelloWorldTests(TestCase):
