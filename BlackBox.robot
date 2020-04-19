@@ -5,57 +5,41 @@ ${PORT}                 8000
 ${SERVER}               http://${HOSTNAME}:${PORT}
 @{BROWSERS}              firefox     chrome
 ${MYSITE}               hello
-${CWD}
+${CWD}                  .
 
 
 *** Settings ***
 Documentation   Django Robot Tests
 Library           Process
 Library           SeleniumLibrary  timeout=10  implicit_wait=10
-# Suite Setup       Start Django
-# Suite Teardown    Terminate All Processes    kill=True
+Suite Setup       Start Django
+Suite Teardown    Terminate All Processes    kill=True
 # Suite Teardown    Stop Django
 
 
 *** Keywords ***
 Start Django
-    Run Process     python manage.py runserver
-    Start Process   ./manage.py runserver
-    Sleep   1 minute
+    Run Process     python      manage.py       migrate
+    # Run Process     python      manage.py       createsuperuser     --username admin    --noinput
+    # This will require to give the password  trogh stdin:
+    # Run Process     python      manage.py       changepassword      admin
+
+    ${Django Server} =  Start Process   python manage.py runserver  shell=True  cwd=./
+    Set Global Variable  ${Django Server}
 
 Stop Django
     Terminate Process   ${Django Server}   kill=true
 
-Start Django and open Browser
-    Start Django
-    Open Browser  ${SERVER}  ${BROWSER}
-
-Stop Django and close browser
-    Close Browser
-    Stop Django
-
-Hello Django
-    [Documentation]     Test the hello website with a browser given
-    [Arguments]     ${BROWSER}= firefox     ${WEBPAGE}= ${SERVER}
-    Open Browser    ${WEBPAGE}  ${BROWSER}
-    Go To  ${WEBPAGE}
-    # Wait until page contains element  id=explanation
-    Page Should Contain  Hello
-    Capture Page Screenshot
-    Close Browser
 
 *** Test Cases ***
+
 Test The Default Django Landing Page
-    [Tags]  Headless
-    # Start Django
+    [Tags]  Headless    Skip
     Open Browser    ${SERVER}  headlesschrome
     Go To   ${SERVER}
     Page Should Contain     The install worked successfully
     Capture Page Screenshot
     Close Browser
-
-Check The Admin Interface Login Page
-    [Tags]  Headless    Skip
     
 Test On Mac Specific Browsers
     [Tags]  MacOS  Head-On  Skip
@@ -66,3 +50,31 @@ Test On Windows Specific Browsers
     [Tags]  Windows  Head-On  Skip
     Pass Execution If  sys.platform == 'win32'   'Windows'
     Hello Django    edge     ${SERVER}
+
+Check The Admin Interface Login Page
+    [Tags]  Headless
+    Given Open Browser    browser=headlesschrome
+    
+    When Go To   ${SERVER}/admin
+    And Capture Page Screenshot
+    
+    Then Page Should Contain     Django administration
+    And Page Should Contain Button   Log in
+    And Page Should Contain Textfield   username
+    And Page Should Contain Textfield   password
+    
+    Close Browser
+
+Attempt To Log In With Default Credentials On The Admin Interface Login Page
+    [Tags]  Headless
+    Given Open Browser    browser=headlesschrome
+    And Go To   ${SERVER}/admin
+    
+    When Input Text         username    admin
+    And Input Password      password    admin
+    And Capture Page Screenshot
+    And Click Button        Log in
+
+    Then Wait Until Location Is Not     ${SERVER}/admin
+    And Page Should Not Contain      OperationalError
+    Close Browser

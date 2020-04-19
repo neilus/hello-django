@@ -11,3 +11,4 @@ virtualenv/
 *.html
 *.log
 .vagrant
+.ipynb_checkpoints/
