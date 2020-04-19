@@ -1,4 +1,1 @@
-markdown
-django-filter
-pycodestyle
-autopep8
+django~=3.0.0

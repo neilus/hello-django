@@ -8,6 +8,7 @@ on:
   push:
     branches: 
       - master
+      - django3
   pull_request:
     branches:
       - master
