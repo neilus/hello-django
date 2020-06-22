@@ -39,7 +39,7 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
-    summaryFileLocation: .tox/**/coverage.xml
+    summaryFileLocation: '**/coverage.xml'
     #pathToSources: # Optional
     #reportDirectory: # Optional
     #additionalCodeCoverageFiles: # Optional
