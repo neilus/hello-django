@@ -25,7 +25,7 @@ steps:
   displayName: Publish Test Results
   inputs:
     testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
-    testResultsFiles: '**/*.xml' 
+    testResultsFiles: '**/reports.xml' 
     #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
     #mergeTestResults: false # Optional
     failTaskOnFailedTests: false # Optional
