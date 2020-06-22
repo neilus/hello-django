@@ -12,3 +12,5 @@ virtualenv/
 *.log
 .vagrant
 .ipynb_checkpoints/
+**/*cover
+.coverage
