@@ -17,9 +17,11 @@ variables:
 steps:
 - script: sudo pip install -U tox
   displayName: 'Install Tox'
-  - script: tox
+
+- script: tox
   displayName: 'Run tests with tox'
-  - task: PublishTestResults@2
+
+- task: PublishTestResults@2
   displayName: Publish Test Results
   inputs:
     testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
@@ -31,6 +33,7 @@ steps:
     #buildPlatform: # Optional
     #buildConfiguration: # Optional
     publishRunAttachments: true # Optional
+  
 # Publish code coverage results
 # Publish Cobertura or JaCoCo code coverage results from a build
 - task: PublishCodeCoverageResults@1
