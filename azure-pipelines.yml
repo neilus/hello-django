@@ -33,6 +33,19 @@ steps:
     #buildPlatform: # Optional
     #buildConfiguration: # Optional
     publishRunAttachments: true # Optional
+
+- task: PublishTestResults@2
+  displayName: Publish Acceptance Test Results
+  inputs:
+    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+    testResultsFiles: '**/blackbox.xml' 
+    #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+    #mergeTestResults: false # Optional
+    failTaskOnFailedTests: false # Optional
+    #testRunTitle: # Optional
+    #buildPlatform: # Optional
+    #buildConfiguration: # Optional
+    publishRunAttachments: true # Optional
   
 # Publish code coverage results
 # Publish Cobertura or JaCoCo code coverage results from a build
