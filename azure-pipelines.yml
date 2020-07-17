@@ -18,6 +18,7 @@ steps:
   displayName: 'Install Tox'
 - script: tox
   displayName: 'Run tests with tox'
+
 - task: PublishTestResults@2
   displayName: Publish Test Results
   inputs:
@@ -30,3 +31,20 @@ steps:
     #buildPlatform: # Optional
     #buildConfiguration: # Optional
     publishRunAttachments: true # Optional
+    
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud Python SandBox'
+    organization: 'ineilus'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'python-sandbox'
+    cliProjectName: 'hello-django'
+    cliSources: '.'
+
+- task: SonarCloudAnalyze@1
+
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
