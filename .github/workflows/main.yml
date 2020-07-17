@@ -31,6 +31,6 @@ jobs:
       #run: sudo apt install -yq python-tox
 
     - name: Run tests with tox
-      run: tox -p $(tox -l | wc)
+      run: tox
       env:
         JENKINS_URL: ''
