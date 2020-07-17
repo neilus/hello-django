@@ -18,7 +18,7 @@ steps:
 - script: sudo pip install -U tox
   displayName: 'Install Tox'
 
-- script: tox
+- script: tox -p $(tox -l | wc)
   displayName: 'Run tests with tox'
 
 - task: PublishTestResults@2
