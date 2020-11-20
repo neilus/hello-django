@@ -16,6 +16,10 @@ variables:
 steps:
 - script: sudo pip install -U tox
   displayName: 'Install Tox'
+- displayName: Update Chrome
+  script: |
+    sudo apt update -yqq
+    sudo apt upgrade
 - script: tox
   displayName: 'Run tests with tox'
 
@@ -23,7 +27,7 @@ steps:
   displayName: Publish Test Results
   inputs:
     testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
-    testResultsFiles: '**/*.xml' 
+    testResultsFiles: '**/*.xml'
     #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
     #mergeTestResults: false # Optional
     failTaskOnFailedTests: false # Optional
@@ -31,7 +35,7 @@ steps:
     #buildPlatform: # Optional
     #buildConfiguration: # Optional
     publishRunAttachments: true # Optional
-    
+
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud Python SandBox'

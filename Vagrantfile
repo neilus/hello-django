@@ -42,6 +42,8 @@ Vagrant.configure("2") do |config|
       keep_color: true,
       privileged: false,
       inline: <<-SCRIPT
+        curl -LO https://gist.githubusercontent.com/mokagio/b974620ee8dcf5c0671f/raw/98c372acec9a7fc6c59b5f6660a5e12af7abcff5/install-xcode-cli-tools.sh
+        bash -c install-xcode-cli-tools.sh
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
         brew install python python@3.8 tox
         brew cask install vscode firefox google-chrome chromedriver
