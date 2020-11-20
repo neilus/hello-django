@@ -16,10 +16,10 @@ variables:
 steps:
 - script: sudo pip install -U tox
   displayName: 'Install Tox'
-- displayName: Update Chrome
-  script: |
+- script: |
     sudo apt update -yqq
     sudo apt upgrade
+  displayName: Updating chrome
 - script: tox
   displayName: 'Run tests with tox'
 
