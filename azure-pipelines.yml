@@ -18,7 +18,7 @@ steps:
   displayName: 'Install Tox'
 - script: |
     sudo apt update -yqq
-    sudo apt upgrade
+    sudo apt upgrade -qy
   displayName: Updating chrome
 - script: tox
   displayName: 'Run tests with tox'
