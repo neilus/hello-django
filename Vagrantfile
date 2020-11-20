@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "windows-client" do |win|
     win.vm.box = "peru/windows-10-enterprise-x64-eval"
     win.vm.boot_timeout = 1800
-    # win.vm.synced_folder ".", "/vagrant", type: "smb"
+    win.vm.synced_folder ".", "/vagrant", type: "smb"
     win.vm.network "private_network", type: "dhcp" #ip: "192.168.137.30"
     # win.vm.network "public_network", type: "dhcp"
     win.vm.provision "choco", type: "shell",

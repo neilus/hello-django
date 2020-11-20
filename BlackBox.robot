@@ -34,8 +34,8 @@ Stop Django and close browser
 
 Hello Django
     [Documentation]     Test the hello website with a browser given
-    [Arguments]     ${BROWSER}= firefox     ${WEBPAGE}= ${SERVER}
-    Open Browser    ${WEBPAGE}  ${BROWSER}
+    [Arguments]     ${BROWSER}= firefox     ${WEBPAGE}= ${SERVER}     ${OPTIONS}= Omit
+    Open Browser    ${WEBPAGE}  ${BROWSER}  ${OPTIONS}
     Go To  ${WEBPAGE}
     # Wait until page contains element  id=explanation
     Page Should Contain  Hello
@@ -44,7 +44,7 @@ Hello Django
 
 *** Test Cases ***
 Hello From Headless Firefox
-    [Tags]  Skip  Headless
+    [Tags]  Headless
     Start Django
     Open Browser    ${SERVER}  headlessfirefox
     Go To   ${SERVER}
@@ -75,7 +75,7 @@ Test On Mac Specific Browsers
     Hello Django    safari     ${SERVER}
 
 Test On Windows Specific Browsers
-    [Tags]  Windows  Head-On
+    [Tags]  Skip  Windows  Head-On
     Pass Execution If  sys.platform == 'win32'   'Windows'
-    Hello Django    edge     ${SERVER}
-        
+    Hello Django    edge     ${SERVER}    options=use_chromium=True
+
