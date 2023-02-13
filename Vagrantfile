@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
         brew install geckodriver
       SCRIPT
   end
-
+  
   config.vm.define "windows-client" do |win|
     win.vm.box = "peru/windows-10-enterprise-x64-eval"
     win.vm.boot_timeout = 1800
@@ -72,6 +72,28 @@ Vagrant.configure("2") do |config|
         Set-ExecutionPolicy Bypass -Scope Process -Force;
         iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
         choco install --confirm --accept-license --no-progresss python2 git google-chrome firefox microsoft-edge ie9 ie10 ie11 selenium-all-drivers vscode fluent-terminal
+        wuauclt /detectnow /updatenow
+      SCRIPT
+  end
+
+  config.vm.define "windows11-client" do |win|
+    win.vm.box = "gusztavvargadr/windows-11"
+    win.vm.boot_timeout = 1800
+
+    win.vm.provider "virtualbox" do |vbox|
+      vbox.gui = false
+      vbox.customize [ "modifyvm", :id, "--nested-hw-virt", "on" ]
+      vbox.customize [ "modifyvm", :id, "--accelerate3d", "on" ]
+      # vbox.customize [ "modifyvm", :id, "--monitorcount", "2"]
+    end
+    # win.vm.synced_folder ".", "/vagrant", type: "smb"
+    # win.vm.network "private_network", type: "dhcp" #ip: "192.168.137.30"
+    # win.vm.network "public_network", type: "dhcp"
+    win.vm.provision "choco", type: "shell",
+      keep_color: true,
+      privileged: true,
+      inline: <<-SCRIPT
+        Set-ExecutionPolicy Bypass -Scope Process -Force;
         wuauclt /detectnow /updatenow
       SCRIPT
   end
